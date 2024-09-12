@@ -1,6 +1,53 @@
 #include <iostream>
 using namespace std;
 
+//VARIABLES GLOBALES
+
+string parameter, bit_2da_funcion, indicaciones_cara5, indicaciones_cara2, indicaciones_cara1;
+string sentido[3];
+string rotaciones[3];
+string superficie[3];
+
+int cara1[4][4];
+int cara2[4][4];
+int cara3[4][4];
+int cara4[4][4];
+int cara5[4][4];
+int cara6[4][4];
+
+int cara1_invariante[4][4];
+int cara2_invariante[4][4];
+int cara3_invariante[4][4];
+int cara4_invariante[4][4];
+int cara5_invariante[4][4];
+int cara6_invariante[4][4];
+
+//SOLO IMPRIME
+void print_cara(int n_cara[4][4]){
+    cout << endl;
+    for (int i = 0; i < 4; i ++){
+        for (int j = 0; j < 4; j ++){
+            cout << n_cara[i][j];
+        }
+    }
+}
+
+//ACTUALIZACION DE CARAS TEMPORALES
+void actualizar_caras(){
+    
+    for (int i = 1; i < 4; i ++){
+        for (int j = 1; j < 4; j ++){
+            cara1_invariante[i][j] = cara1[i][j];
+            cara2_invariante[i][j] = cara2[i][j];
+            cara3_invariante[i][j] = cara3[i][j];
+            cara4_invariante[i][j] = cara4[i][j];
+            cara5_invariante[i][j] = cara5[i][j];
+            cara6_invariante[i][j] = cara6[i][j];
+        }
+    }
+}
+
+//CONVERTIR HEXADECIMAL A BINARIO
 string hex_to_binary(string parameter){
     
     string binary;
@@ -71,60 +118,449 @@ string hex_to_binary(string parameter){
     return binary;
 }
 
-void rotaciones(string binary){
+//SACAR LAS INDICACIONES
+void rotaciones_indicaciones(string binary){
     
     //cout << endl << binary;
     
-    string bit_2da_funcion = binary.substr(0,1);
-    string cara5 = binary.substr(1, 5);
-    string cara2 = binary.substr(6, 5);
-    string cara1 = binary.substr(11, 5);
+    bit_2da_funcion = binary.substr(0,1);
+    indicaciones_cara5 = binary.substr(1, 5);
+    indicaciones_cara2 = binary.substr(6, 5);
+    indicaciones_cara1 = binary.substr(11, 5);
     
     //cout << endl << bit_2da_funcion << endl << cara5 << endl << cara2 << endl << cara1;
     
-    string sentido_cara1 = cara1.substr(0, 1);
-    string rotaciones_cara1 = cara1.substr(1, 2);
-    string superficie_cara1 = cara1.substr(3, 2);
+    //0 para la cara 1, 1 para la cara 2, 2 para la cara 5
     
-    string sentido_cara2 = cara2.substr(0, 1);
-    string rotaciones_cara2 = cara2.substr(1, 2);
-    string superficie_cara2 = cara2.substr(3, 2);
+    sentido[0] = indicaciones_cara1.substr(0, 1);
+    rotaciones[0] = indicaciones_cara1.substr(1, 2);
+    superficie[0] = indicaciones_cara1.substr(3, 2);
     
-    string sentido_cara5 = cara5.substr(0, 1);
-    string rotaciones_cara5 = cara5.substr(1, 2);
-    string superficie_cara5 = cara5.substr(3, 2);
+    sentido[1] = indicaciones_cara2.substr(0, 1);
+    rotaciones[1] = indicaciones_cara2.substr(1, 2);
+    superficie[1] = indicaciones_cara2.substr(3, 2);
+    
+    sentido[2] = indicaciones_cara5.substr(0, 1);
+    rotaciones[2] = indicaciones_cara5.substr(1, 2);
+    superficie[2] = indicaciones_cara5.substr(3, 2);
     
     //cout << endl << sentido_cara1 << endl << rotaciones_cara1 << endl << superficie_cara1;
     
-    
-    
 }
 
-int llenar_cubo(int bit){
-    
-    int n_cara[4][4];
+//LLENADO DEL CUBO
+void llenar_cubo(int n_cara[4][4], int bit){
     
     for (int i = 0; i < 4; i ++){
         for (int j = 0; j < 4; j ++){
             n_cara[i][j] = bit;
         }
     }
+}
+
+//CAMBIOS EN LA ROTACIÓN
+void cambios(int tipo, int n_dim, int m_dim, int cara_cambio[4][4], int cara_invariante[4][4]){
     
-    return n_cara;
+    /*
+    TIPOS:
+    1. COLUMNA COLUMNA
+    2. FILA FILA
+    3. COLUMNA FILA
+    4. FILA COLUMNA
+    
+    DIMS:
+    Indicarán qué fila o columna intercambiar
+    */
+    
+    switch (tipo){
+        case 1:
+            
+            //columna columna
+            for (int i = 0; i < 4; i ++){
+                cara_cambio[i][n_dim] = cara_invariante[i][m_dim];
+            }
+        
+            break;
+        case 2:
+        
+            //fila fila
+            for (int i = 0; i < 4; i ++){
+                cara_cambio[n_dim][i] = cara_invariante[m_dim][i];
+            }
+        
+            break;
+        case 3:
+            
+            //cambiás una columna por una fila
+            for (int i = 0; i < 4; i ++){
+                cara_cambio[i][n_dim] = cara_invariante[m_dim][i];
+            }
+        
+            break;
+        case 4:
+        
+            //cambiás una fila por una columna
+            for (int i = 0; i < 4; i ++){
+                cara_cambio[n_dim][i] = cara_invariante[i][m_dim];
+            }
+            
+            break;
+    }
     
 }
 
-int main() {
-
-    string parameter;
+//DEFINE LAS ROTACIONES PARA CADA UNO DE LOS 6 POSIBLES CICLOS
+void ciclos(int ciclo){
     
-    //lenar caras del cubo
-    int cara1[4][4] = llenar_cubo(0);
-    int cara2[4][4] = llenar_cubo(1);
-    int cara3[4][4] = llenar_cubo(0);
-    int cara4[4][4] = llenar_cubo(1);
-    int cara5[4][4] = llenar_cubo(0);
-    int cara6[4][4] = llenar_cubo(1);
+    /*
+    CICLO 1:
+    Rotar C1
+    C2c1 C6c1 C4c3 C5c1 C2c1
+
+    CICLO 2:
+    Rotar C2
+    C5f3 C3c1 C6f1 C1c3 C5f3
+
+    CICLO 3:
+    Rotar C3
+    C2c3 C6c3 C4c1 C5c3 C2c3
+
+    CICLO 4:
+    Rotar C4
+    C5f1 C3c3 C6f3 C1c1 C5f1
+
+    CICLO 5:
+    Rotar C5
+    C3f1 C2f1 C1f1 C4f1 C3f1
+
+    CICLO 6:
+    Rotar C6
+    C1f3 C2f3 C3f3 C4f3 C1f3
+    */    
+    
+    switch (ciclo){
+        case 1:
+            
+            cambios(1, 0, 0, cara6, cara2_invariante);
+            cambios(1, 2, 0, cara4, cara6_invariante);
+            cambios(1, 0, 2, cara5, cara4_invariante);
+            cambios(1, 0, 0, cara2, cara5_invariante);
+            
+            cambios(3, 0, 2, cara1, cara1_invariante);
+            cambios(3, 1, 1, cara1, cara1_invariante);
+            cambios(3, 2, 0, cara1, cara1_invariante);
+            
+            actualizar_caras();
+            
+            break;
+        case 2:
+            
+            cambios(3, 0, 2, cara3, cara5_invariante);
+            cambios(4, 0, 0, cara6, cara3_invariante);
+            cambios(3, 2, 0, cara1, cara6_invariante);
+            cambios(4, 2, 2, cara5, cara1_invariante);
+            
+            cambios(3, 0, 2, cara2, cara2_invariante);
+            cambios(3, 1, 1, cara2, cara2_invariante);
+            cambios(3, 2, 0, cara2, cara2_invariante);    
+            
+            actualizar_caras();
+            
+            break;
+        case 3:
+            
+            cambios(1, 2, 2, cara6, cara2_invariante);
+            cambios(1, 0, 2, cara4, cara6_invariante);
+            cambios(1, 2, 0, cara5, cara4_invariante);
+            cambios(1, 2, 2, cara2, cara5_invariante);
+            
+            cambios(3, 0, 2, cara3, cara3_invariante);
+            cambios(3, 1, 1, cara3, cara3_invariante);
+            cambios(3, 2, 0, cara3, cara3_invariante);
+            
+            actualizar_caras();
+            
+            break;
+        case 4:
+            
+            cambios(3, 2, 0, cara3, cara5_invariante);
+            cambios(4, 2, 2, cara6, cara3_invariante);
+            cambios(3, 0, 2, cara1, cara6_invariante);
+            cambios(4, 0, 0, cara5, cara1_invariante);
+            
+            cambios(3, 0, 2, cara4, cara4_invariante);
+            cambios(3, 1, 1, cara4, cara4_invariante);
+            cambios(3, 2, 0, cara4, cara4_invariante);
+            
+            actualizar_caras();
+            
+            break;
+        case 5:
+            
+            cambios(2, 0, 0, cara2, cara3_invariante);
+            cambios(2, 0, 0, cara1, cara2_invariante);
+            cambios(2, 0, 0, cara4, cara1_invariante);
+            cambios(2, 0, 0, cara3, cara4_invariante);
+            
+            cambios(3, 0, 2, cara5, cara5_invariante);
+            cambios(3, 1, 1, cara5, cara5_invariante);
+            cambios(3, 2, 0, cara5, cara5_invariante);
+            
+            actualizar_caras();
+            
+            break;
+        case 6:
+            
+            cambios(2, 2, 2, cara2, cara1_invariante);
+            cambios(2, 2, 2, cara3, cara2_invariante);
+            cambios(2, 2, 2, cara4, cara3_invariante);
+            cambios(2, 2, 2, cara1, cara4_invariante);
+            
+            cambios(3, 0, 2, cara6, cara6_invariante);
+            cambios(3, 1, 1, cara6, cara6_invariante);
+            cambios(3, 2, 0, cara6, cara6_invariante);
+            
+            actualizar_caras();
+            
+            break;
+    }
+}
+
+//CONVIERTE UN BINARIO DE 2 BITS EN ENTERO
+int binary_to_int(string binary){
+    
+    //De la forma 00, 01, 10, 11, 0, 1, 2, 3
+    int decimal = 0;
+    
+    if (binary[0] == '1') decimal += 1;
+    if (binary[1] == '1') decimal += 2;
+    
+    return decimal;
+    
+}
+
+//REORDENA EL CUBO
+void cubo_final(){
+ 
+    /*
+    string sentido[3];
+    string rotaciones[3];
+    string superficie[3];
+    */
+    
+    //PARA LA CARA 1
+    
+    switch (binary_to_int(superficie[0])){
+        case 0:
+            if (sentido[0] == "0"){
+                for (int i = 0; i < binary_to_int(rotaciones[0]); i++){
+                    ciclos(5);
+                }
+            }
+            else{
+                for (int i = 0; i < 4 - binary_to_int(rotaciones[0]); i++){
+                    ciclos(5);
+                }
+            }
+            break;
+        case 1:
+            if (sentido[0] == "0"){
+                for (int i = 0; i < binary_to_int(rotaciones[0]); i++){
+                    ciclos(4);
+                }
+            }
+            else{
+                for (int i = 0; i < 4 - binary_to_int(rotaciones[0]); i++){
+                    ciclos(4);
+                }
+            }
+            break;
+        case 2:
+            if (sentido[0] == "0"){
+                for (int i = 0; i < binary_to_int(rotaciones[0]); i++){
+                    ciclos(6);
+                }
+            }
+            else{
+                for (int i = 0; i < 4 - binary_to_int(rotaciones[0]); i++){
+                    ciclos(6);
+                }
+            }
+            break;
+        case 3:
+            if (sentido[0] == "0"){
+                for (int i = 0; i < binary_to_int(rotaciones[0]); i++){
+                    ciclos(2);
+                }
+            }
+            else{
+                for (int i = 0; i < 4 - binary_to_int(rotaciones[0]); i++){
+                    ciclos(2);
+                }
+            }
+            break;
+    }
+            
+    //PARA LA CARA 2
+        
+    switch (binary_to_int(superficie[1])){
+        case 0:
+            if (sentido[1] == "0"){
+                for (int i = 0; i < binary_to_int(rotaciones[1]); i++){
+                    ciclos(5);
+                }
+            }
+            else{
+                for (int i = 0; i < 4 - binary_to_int(rotaciones[1]); i++){
+                    ciclos(5);
+                }
+            }
+            break;
+        case 1:
+            if (sentido[1] == "0"){
+                for (int i = 0; i < binary_to_int(rotaciones[1]); i++){
+                    ciclos(1);
+                }
+            }
+            else{
+                for (int i = 0; i < 4 - binary_to_int(rotaciones[1]); i++){
+                    ciclos(1);
+                }
+            }
+            break;
+        case 2:
+            if (sentido[1] == "0"){
+                for (int i = 0; i < binary_to_int(rotaciones[1]); i++){
+                    ciclos(6);
+                }
+            }
+            else{
+                for (int i = 0; i < 4 - binary_to_int(rotaciones[1]); i++){
+                    ciclos(6);
+                }
+            }
+            break;
+        case 3:
+            if (sentido[1] == "0"){
+                for (int i = 0; i < binary_to_int(rotaciones[1]); i++){
+                    ciclos(3);
+                }
+            }
+            else{
+                for (int i = 0; i < 4 - binary_to_int(rotaciones[1]); i++){
+                    ciclos(3);
+                }
+            }
+            break;
+    }
+        
+    //PARA LA CARA 5
+    
+    switch (binary_to_int(superficie[2])){
+        case 0:
+            if (sentido[2] == "0"){
+                for (int i = 0; i < binary_to_int(rotaciones[2]); i++){
+                    ciclos(4);
+                }
+            }
+            else{
+                for (int i = 0; i < 4 - binary_to_int(rotaciones[0]); i++){
+                    ciclos(4);
+                }
+            }
+            break;
+        case 1:
+            if (sentido[2] == "0"){
+                for (int i = 0; i < binary_to_int(rotaciones[2]); i++){
+                    ciclos(1);
+                }
+            }
+            else{
+                for (int i = 0; i < 4 - binary_to_int(rotaciones[0]); i++){
+                    ciclos(1);
+                }
+            }
+            break;
+        case 2:
+            if (sentido[2] == "0"){
+                for (int i = 0; i < binary_to_int(rotaciones[2]); i++){
+                    ciclos(2);
+                }
+            }
+            else{
+                for (int i = 0; i < 4 - binary_to_int(rotaciones[0]); i++){
+                    ciclos(2);
+                }
+            }
+            break;
+        case 3:
+            if (sentido[2] == "0"){
+                for (int i = 0; i < binary_to_int(rotaciones[2]); i++){
+                    ciclos(3);
+                }
+            }
+            else{
+                for (int i = 0; i < 4 - binary_to_int(rotaciones[0]); i++){
+                    ciclos(3);
+                }
+            }
+            break;
+        
+    }
+    
+}
+
+//SACAR LA LLAVE MUTANTE
+void llave_mutante(){
+    
+    string kC1, kC2, kC3, kC4, kC5, kC6, llave_mutante;
+    
+    //LOS DEFINIDOS POR LA GUÍA
+    
+    kC1 = to_string(cara1[0][3]) + to_string(cara1[0][2]) + to_string(cara1[0][1]) + to_string(cara1[0][0]) + to_string(cara1[1][3]) + to_string(cara1[1][2]) + to_string(cara1[1][1]) + to_string(cara1[1][0]) + to_string(cara1[2][3]) + to_string(cara1[2][2]) + to_string(cara1[2][1]) + to_string(cara1[2][0]) + to_string(cara1[3][3]) + to_string(cara1[3][2]) + to_string(cara1[3][1]) + to_string(cara1[3][0]);
+    
+    kC2 = to_string(cara2[0][0]) + to_string(cara2[1][0]) + to_string(cara2[2][0]) + to_string(cara2[3][0]) + to_string(cara2[0][1]) + to_string(cara2[1][1]) + to_string(cara2[2][1]) + to_string(cara2[3][1]) + to_string(cara2[0][2]) + to_string(cara2[1][2]) + to_string(cara2[2][2]) + to_string(cara2[3][2]) + to_string(cara2[0][3]) + to_string(cara2[1][3]) + to_string(cara2[2][3]) + to_string(cara2[3][3]);
+    
+    kC5 = to_string(cara5[3][0]) + to_string(cara5[3][1]) + to_string(cara5[3][2]) + to_string(cara5[3][3]) + to_string(cara5[2][0]) + to_string(cara5[2][1]) + to_string(cara5[2][2]) + to_string(cara5[2][3]) + to_string(cara5[1][0]) + to_string(cara5[1][1]) + to_string(cara5[1][2]) + to_string(cara5[1][3]) + to_string(cara5[0][0]) + to_string(cara5[0][1]) + to_string(cara5[0][2]) + to_string(cara5[0][3]);
+    
+    //LOS INVERSOS
+    
+    kC3 = to_string(cara3[3][0]) + to_string(cara3[3][1]) + to_string(cara3[3][2]) + to_string(cara3[3][3]) + to_string(cara3[2][0]) + to_string(cara3[2][1]) + to_string(cara3[2][2]) + to_string(cara3[2][3]) + to_string(cara3[1][0]) + to_string(cara3[1][1]) + to_string(cara3[1][2]) + to_string(cara3[1][3]) + to_string(cara3[0][0]) + to_string(cara3[0][1]) + to_string(cara3[0][2]) + to_string(cara3[0][3]);
+    
+    kC4 = to_string(cara4[3][3]) + to_string(cara4[2][3]) + to_string(cara4[1][3]) + to_string(cara4[0][3]) + to_string(cara4[3][2]) + to_string(cara4[2][2]) + to_string(cara4[1][2]) + to_string(cara4[0][2]) + to_string(cara4[3][1]) + to_string(cara4[2][1]) + to_string(cara4[1][1]) + to_string(cara4[0][1]) + to_string(cara4[3][0]) + to_string(cara4[2][0]) + to_string(cara4[1][0]) + to_string(cara4[0][0]);
+    
+    kC6 = to_string(cara6[3][3]) + to_string(cara6[2][3]) + to_string(cara6[1][3]) + to_string(cara6[0][3]) + to_string(cara6[3][2]) + to_string(cara6[2][2]) + to_string(cara6[1][2]) + to_string(cara6[0][2]) + to_string(cara6[3][1]) + to_string(cara6[2][1]) + to_string(cara6[1][1]) + to_string(cara6[0][1]) + to_string(cara6[3][0]) + to_string(cara6[2][0]) + to_string(cara6[1][0]) + to_string(cara6[0][0]);
+    
+    llave_mutante = kC6 + kC5 + kC4 + kC3 + kC2 + kC1;
+    
+    cout << endl << endl << "LLAVE MUTANTE : " << llave_mutante;
+    
+}
+
+//FUNCION PRINCIPAL
+int main() {
+    
+    llenar_cubo(cara1, 0);
+    llenar_cubo(cara2, 1);
+    llenar_cubo(cara3, 0);
+    llenar_cubo(cara4, 1);
+    llenar_cubo(cara5, 0);
+    llenar_cubo(cara6, 1);
+    
+    actualizar_caras();
+    
+    print_cara(cara1);
+    cout << endl;
+    print_cara(cara2);
+    cout << endl;
+    print_cara(cara3);
+    cout << endl;
+    print_cara(cara4);
+    cout << endl;
+    print_cara(cara5);
+    cout << endl;
+    print_cara(cara6);
+    cout << endl;
     
     //Ingresar el parámetro en hexadecimal
     cout << "Ingresa el parámetro hexadecimal" << endl;
@@ -133,8 +569,24 @@ int main() {
     //Convertir a binario
     string binary = hex_to_binary(parameter);
     
-    rotaciones(binary);
+    rotaciones_indicaciones(binary);
     
+    cubo_final();
+    
+    print_cara(cara1);
+    cout << endl;
+    print_cara(cara2);
+    cout << endl;
+    print_cara(cara3);
+    cout << endl;
+    print_cara(cara4);
+    cout << endl;
+    print_cara(cara5);
+    cout << endl;
+    print_cara(cara6);
+    cout << endl;
+    
+    llave_mutante();
     
 
     return 0;
