@@ -242,55 +242,59 @@ void ciclos(int ciclo){
         case 1:
             
             cambios(1, 0, 0, cara6, cara2_invariante);
-            cambios(1, 2, 0, cara4, cara6_invariante);
-            cambios(1, 0, 2, cara5, cara4_invariante);
+            cambios(1, 3, 0, cara4, cara6_invariante);
+            cambios(1, 0, 3, cara5, cara4_invariante);
             cambios(1, 0, 0, cara2, cara5_invariante);
             
-            cambios(3, 0, 2, cara1, cara1_invariante);
-            cambios(3, 1, 1, cara1, cara1_invariante);
-            cambios(3, 2, 0, cara1, cara1_invariante);
+            cambios(3, 0, 3, cara1, cara1_invariante);
+            cambios(3, 1, 2, cara1, cara1_invariante);
+            cambios(3, 2, 1, cara1, cara1_invariante);
+            cambios(3, 3, 0, cara1, cara1_invariante);
             
             actualizar_caras();
             
             break;
         case 2:
             
-            cambios(3, 0, 2, cara3, cara5_invariante);
+            cambios(3, 0, 3, cara3, cara5_invariante);
             cambios(4, 0, 0, cara6, cara3_invariante);
-            cambios(3, 2, 0, cara1, cara6_invariante);
-            cambios(4, 2, 2, cara5, cara1_invariante);
+            cambios(3, 3, 0, cara1, cara6_invariante);
+            cambios(4, 3, 3, cara5, cara1_invariante);
             
-            cambios(3, 0, 2, cara2, cara2_invariante);
-            cambios(3, 1, 1, cara2, cara2_invariante);
-            cambios(3, 2, 0, cara2, cara2_invariante);    
+            cambios(3, 0, 3, cara2, cara2_invariante);
+            cambios(3, 1, 2, cara2, cara2_invariante);
+            cambios(3, 2, 1, cara2, cara2_invariante);   
+            cambios(3, 3, 0, cara2, cara2_invariante);  
             
             actualizar_caras();
             
             break;
         case 3:
+        
+            cambios(1, 3, 3, cara5, cara2_invariante);
+            cambios(1, 0, 3, cara4, cara5_invariante);
+            cambios(1, 3, 0, cara6, cara4_invariante);
+            cambios(1, 3, 3, cara2, cara6_invariante);
             
-            cambios(1, 2, 2, cara6, cara2_invariante);
-            cambios(1, 0, 2, cara4, cara6_invariante);
-            cambios(1, 2, 0, cara5, cara4_invariante);
-            cambios(1, 2, 2, cara2, cara5_invariante);
-            
-            cambios(3, 0, 2, cara3, cara3_invariante);
-            cambios(3, 1, 1, cara3, cara3_invariante);
-            cambios(3, 2, 0, cara3, cara3_invariante);
+            cambios(3, 0, 3, cara3, cara3_invariante);
+            cambios(3, 1, 2, cara3, cara3_invariante);
+            cambios(3, 2, 1, cara3, cara3_invariante);
+            cambios(3, 3, 3, cara3, cara3_invariante);
             
             actualizar_caras();
             
             break;
         case 4:
+        
+            cambios(3, 0, 0, cara1, cara5_invariante);
+            cambios(4, 3, 0, cara6, cara1_invariante);
+            cambios(3, 3, 3, cara3, cara6_invariante);
+            cambios(4, 0, 3, cara5, cara3_invariante);
             
-            cambios(3, 2, 0, cara3, cara5_invariante);
-            cambios(4, 2, 2, cara6, cara3_invariante);
-            cambios(3, 0, 2, cara1, cara6_invariante);
-            cambios(4, 0, 0, cara5, cara1_invariante);
-            
-            cambios(3, 0, 2, cara4, cara4_invariante);
-            cambios(3, 1, 1, cara4, cara4_invariante);
-            cambios(3, 2, 0, cara4, cara4_invariante);
+            cambios(3, 0, 3, cara4, cara4_invariante);
+            cambios(3, 1, 2, cara4, cara4_invariante);
+            cambios(3, 2, 1, cara4, cara4_invariante);
+            cambios(3, 3, 3, cara4, cara4_invariante);
             
             actualizar_caras();
             
@@ -302,23 +306,25 @@ void ciclos(int ciclo){
             cambios(2, 0, 0, cara4, cara1_invariante);
             cambios(2, 0, 0, cara3, cara4_invariante);
             
-            cambios(3, 0, 2, cara5, cara5_invariante);
-            cambios(3, 1, 1, cara5, cara5_invariante);
-            cambios(3, 2, 0, cara5, cara5_invariante);
+            cambios(3, 0, 3, cara5, cara5_invariante);
+            cambios(3, 1, 2, cara5, cara5_invariante);
+            cambios(3, 2, 1, cara5, cara5_invariante);
+            cambios(3, 3, 3, cara5, cara5_invariante);
             
             actualizar_caras();
             
             break;
         case 6:
             
-            cambios(2, 2, 2, cara2, cara1_invariante);
-            cambios(2, 2, 2, cara3, cara2_invariante);
-            cambios(2, 2, 2, cara4, cara3_invariante);
-            cambios(2, 2, 2, cara1, cara4_invariante);
+            cambios(2, 3, 3, cara2, cara1_invariante);
+            cambios(2, 3, 3, cara3, cara2_invariante);
+            cambios(2, 3, 3, cara4, cara3_invariante);
+            cambios(2, 3, 3, cara1, cara4_invariante);
             
-            cambios(3, 0, 2, cara6, cara6_invariante);
-            cambios(3, 1, 1, cara6, cara6_invariante);
-            cambios(3, 2, 0, cara6, cara6_invariante);
+            cambios(3, 0, 3, cara6, cara6_invariante);
+            cambios(3, 1, 2, cara6, cara6_invariante);
+            cambios(3, 2, 1, cara6, cara6_invariante);
+            cambios(3, 3, 3, cara6, cara6_invariante);
             
             actualizar_caras();
             
@@ -537,6 +543,42 @@ void llave_mutante(){
     
 }
 
+//SEGUNDA FUNCION
+string segunda_funcion(string __bit_de_segunda_funcion, string binary){
+
+    string new_binary = "";
+    int option;
+    
+    if (__bit_de_segunda_funcion == "0") option = 0;
+    else if (__bit_de_segunda_funcion == "1") option = 1;
+
+    switch (option){
+        
+        case 0:
+            
+            for(int i = 0; i < 16; i ++){
+                if (binary[i] == '0'){
+                    new_binary += '1';
+                }
+                else{
+                    new_binary += '0';
+                }
+            }
+            
+            break;
+        case 1:
+        
+            string parte1 = binary.substr(0, 8);
+            string parte2 = binary.substr(8, 8);
+            
+            new_binary = parte1 + parte2;
+        
+            break;
+    }
+    
+    return new_binary;
+}
+
 //FUNCION PRINCIPAL
 int main() {
     
@@ -549,19 +591,6 @@ int main() {
     
     actualizar_caras();
     
-    print_cara(cara1);
-    cout << endl;
-    print_cara(cara2);
-    cout << endl;
-    print_cara(cara3);
-    cout << endl;
-    print_cara(cara4);
-    cout << endl;
-    print_cara(cara5);
-    cout << endl;
-    print_cara(cara6);
-    cout << endl;
-    
     //Ingresar el parámetro en hexadecimal
     cout << "Ingresa el parámetro hexadecimal" << endl;
     cin >> parameter;
@@ -569,25 +598,29 @@ int main() {
     //Convertir a binario
     string binary = hex_to_binary(parameter);
     
+    //PRIMERA FUNCIÓN
+    
+    //Sacar las indicaciones
     rotaciones_indicaciones(binary);
     
+    //Hace todas las rotaciones en base a las indicaciones
     cubo_final();
     
-    print_cara(cara1);
-    cout << endl;
-    print_cara(cara2);
-    cout << endl;
-    print_cara(cara3);
-    cout << endl;
-    print_cara(cara4);
-    cout << endl;
-    print_cara(cara5);
-    cout << endl;
-    print_cara(cara6);
-    cout << endl;
+    //SEGUNDA FUNCIÓN
     
+    //Convierte el parámetro inicial en base al bit de segunda función
+    binary = segunda_funcion(bit_2da_funcion, binary);
+    
+    //Sacar las nuevas indicaciones
+    rotaciones_indicaciones(binary);
+    
+    //Gacer las nuevas rotaciones
+    cubo_final();
+    
+    //OUTPUT
+    
+    //Imprimir la llave mutante
     llave_mutante();
-    
 
     return 0;
 }
