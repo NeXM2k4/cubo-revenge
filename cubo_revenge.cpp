@@ -2,7 +2,6 @@
 using namespace std;
 
 //VARIABLES GLOBALES
-
 string parameter, bit_2da_funcion, indicaciones_cara5, indicaciones_cara2, indicaciones_cara1;
 string sentido[3];
 string rotaciones[3];
@@ -22,21 +21,59 @@ int cara4_invariante[4][4];
 int cara5_invariante[4][4];
 int cara6_invariante[4][4];
 
-//SOLO IMPRIME
-void print_cara(int n_cara[4][4]){
+//IMPRIMIR EL CUBO COMPLETO
+void print_cubo(){
+    
     cout << endl;
+    
+    for (int i = 0; i < 4; i ++){
+        cout << "                    ";
+        for (int j = 0; j < 4; j ++){
+            cout << cara5[i][j] << " ";
+        }
+        cout << endl;
+    }
+    
+    cout << endl;
+    
     for (int i = 0; i < 4; i ++){
         for (int j = 0; j < 4; j ++){
-            cout << n_cara[i][j];
+            cout << cara4[i][j] << " ";
         }
+        cout << "  ";
+        for (int j = 0; j < 4; j ++){
+            cout << cara1[i][j] << " ";
+        }
+        cout << "  ";
+        for (int j = 0; j < 4; j ++){
+            cout << cara2[i][j] << " ";
+        }
+        cout << "  ";
+        for (int j = 0; j < 4; j ++){
+            cout << cara3[i][j] << " ";
+        }
+        cout << "  ";
+        cout << endl;
     }
+    
+    cout << endl;
+    
+    for (int i = 0; i < 4; i ++){
+        cout << "                    ";
+        for (int j = 0; j < 4; j ++){
+            cout << cara6[i][j] << " ";
+        }
+        cout << endl;
+    }
+    
+    cout << endl;
 }
 
 //ACTUALIZACION DE CARAS TEMPORALES
 void actualizar_caras(){
     
-    for (int i = 1; i < 4; i ++){
-        for (int j = 1; j < 4; j ++){
+    for (int i = 0; i < 4; i ++){
+        for (int j = 0; j < 4; j ++){
             cara1_invariante[i][j] = cara1[i][j];
             cara2_invariante[i][j] = cara2[i][j];
             cara3_invariante[i][j] = cara3[i][j];
@@ -455,48 +492,48 @@ void cubo_final(){
         case 0:
             if (sentido[1] == "0"){
                 for (int i = 0; i < binary_to_int(rotaciones[1]); i++){
-                    ciclos(5);
+                    ciclos(1);
                 }
             }
             else{
                 for (int i = 0; i < 4 - binary_to_int(rotaciones[1]); i++){
-                    ciclos(5);
+                    ciclos(1);
                 }
             }
             break;
         case 1:
             if (sentido[1] == "0"){
                 for (int i = 0; i < binary_to_int(rotaciones[1]); i++){
-                    ciclos(1);
+                    ciclos(6);
                 }
             }
             else{
                 for (int i = 0; i < 4 - binary_to_int(rotaciones[1]); i++){
-                    ciclos(1);
+                    ciclos(6);
                 }
             }
             break;
         case 2:
             if (sentido[1] == "0"){
                 for (int i = 0; i < binary_to_int(rotaciones[1]); i++){
-                    ciclos(6);
+                    ciclos(3);
                 }
             }
             else{
                 for (int i = 0; i < 4 - binary_to_int(rotaciones[1]); i++){
-                    ciclos(6);
+                    ciclos(3);
                 }
             }
             break;
         case 3:
             if (sentido[1] == "0"){
                 for (int i = 0; i < binary_to_int(rotaciones[1]); i++){
-                    ciclos(3);
+                    ciclos(5);
                 }
             }
             else{
                 for (int i = 0; i < 4 - binary_to_int(rotaciones[1]); i++){
-                    ciclos(3);
+                    ciclos(5);
                 }
             }
             break;
@@ -508,48 +545,48 @@ void cubo_final(){
         case 0:
             if (sentido[2] == "0"){
                 for (int i = 0; i < binary_to_int(rotaciones[2]); i++){
-                    ciclos(4);
+                    ciclos(2);
                 }
             }
             else{
                 for (int i = 0; i < 4 - binary_to_int(rotaciones[0]); i++){
-                    ciclos(4);
+                    ciclos(2);
                 }
             }
             break;
         case 1:
             if (sentido[2] == "0"){
                 for (int i = 0; i < binary_to_int(rotaciones[2]); i++){
-                    ciclos(1);
+                    ciclos(3);
                 }
             }
             else{
                 for (int i = 0; i < 4 - binary_to_int(rotaciones[0]); i++){
-                    ciclos(1);
+                    ciclos(3);
                 }
             }
             break;
         case 2:
             if (sentido[2] == "0"){
                 for (int i = 0; i < binary_to_int(rotaciones[2]); i++){
-                    ciclos(2);
+                    ciclos(4);
                 }
             }
             else{
                 for (int i = 0; i < 4 - binary_to_int(rotaciones[0]); i++){
-                    ciclos(2);
+                    ciclos(4);
                 }
             }
             break;
         case 3:
             if (sentido[2] == "0"){
                 for (int i = 0; i < binary_to_int(rotaciones[2]); i++){
-                    ciclos(3);
+                    ciclos(1);
                 }
             }
             else{
                 for (int i = 0; i < 4 - binary_to_int(rotaciones[0]); i++){
-                    ciclos(3);
+                    ciclos(1);
                 }
             }
             break;
@@ -602,7 +639,7 @@ string segunda_funcion(string __bit_de_segunda_funcion, string binary){
                 if (binary[i] == '0'){
                     new_binary += '1';
                 }
-                else{
+                else if (binary[i] == '1'){
                     new_binary += '0';
                 }
             }
@@ -624,6 +661,7 @@ string segunda_funcion(string __bit_de_segunda_funcion, string binary){
 //FUNCION PRINCIPAL
 int main() {
     
+    //LLENAR TODOS LOS CUBOS
     llenar_cubo(cara1, 0);
     llenar_cubo(cara2, 1);
     llenar_cubo(cara3, 0);
@@ -634,36 +672,36 @@ int main() {
     actualizar_caras();
     
     //Ingresar el parámetro en hexadecimal
-    cout << "Ingresa el parámetro hexadecimal" << endl;
+    cout << "Ingresa el parámetro hexadecimal: ";
     cin >> parameter;
     
     //Convertir a binario
     string binary = hex_to_binary(parameter);
-    
     cout << endl << "Parámetro convertido a binario: " << binary;
     
-    //PRIMERA FUNCIÓN
+    cout << "CUBO INICIAL" << endl;
+    print_cubo();
     
+    //PRIMERA FUNCIÓN
     //Sacar las indicaciones
     rotaciones_indicaciones(binary);
-    
     //Hace todas las rotaciones en base a las indicaciones
     cubo_final();
+    cout << endl << "CUBO PRIMERA FUNCION";
+    print_cubo();
     
     //SEGUNDA FUNCIÓN
-    
     //Convierte el parámetro inicial en base al bit de segunda función
     binary = segunda_funcion(bit_2da_funcion, binary);
-    
     cout << endl << endl << "Parámetro de segunda función: " << binary;
-    
     //Sacar las nuevas indicaciones
     rotaciones_indicaciones(binary);
-    
     //Gacer las nuevas rotaciones
     cubo_final();
     
     //OUTPUT
+    cout << endl << "CUBO FINAL";
+    print_cubo();
     
     //Imprimir la llave mutante
     llave_mutante();
