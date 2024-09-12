@@ -118,6 +118,32 @@ string hex_to_binary(string parameter){
     return binary;
 }
 
+//CONVIERTE UN BINARIO DE 2 BITS EN ENTERO
+int binary_to_int(string binary){
+    
+    //De la forma 00, 01, 10, 11, 0, 1, 2, 3
+    int decimal = 0;
+    
+    if (binary[0] == '1') decimal += 1;
+    if (binary[1] == '1') decimal += 2;
+    
+    return decimal;
+    
+}
+
+//PONE UN STRING AL REVEZ
+string inversion_str(string to_invert){
+    
+    string str_invertida = "";
+    
+    for (int i = 1; i >= 0; i --){
+        str_invertida += to_invert[i];
+    }
+    
+    return str_invertida;
+    
+}
+
 //SACAR LAS INDICACIONES
 void rotaciones_indicaciones(string binary){
     
@@ -132,17 +158,46 @@ void rotaciones_indicaciones(string binary){
     
     //0 para la cara 1, 1 para la cara 2, 2 para la cara 5
     
+    string txt_sentido;
+    
+    //INDICACIONES DE CARA 1
+    
     sentido[0] = indicaciones_cara1.substr(0, 1);
     rotaciones[0] = indicaciones_cara1.substr(1, 2);
+    rotaciones[0] = inversion_str(rotaciones[0]);
     superficie[0] = indicaciones_cara1.substr(3, 2);
+    superficie[0] = inversion_str(superficie[0]);
+    
+    if (sentido[0] == "0") txt_sentido = "HORARIO";
+    else if (sentido[0] == "1") txt_sentido = "ANTIHORARIO";
+    
+    cout << endl << "CARA 1: LA SUPERFICIE " << (binary_to_int(superficie[0]) + 1) << " GIRÓ " << binary_to_int(rotaciones[0]) << " VECES EN SENTIDO " << txt_sentido;
+    
+    //INDICACIONES DE CARA 2
     
     sentido[1] = indicaciones_cara2.substr(0, 1);
     rotaciones[1] = indicaciones_cara2.substr(1, 2);
+    rotaciones[1] = inversion_str(rotaciones[1]);
     superficie[1] = indicaciones_cara2.substr(3, 2);
+    superficie[1] = inversion_str(superficie[1]);
+    
+    if (sentido[1] == "0") txt_sentido = "HORARIO";
+    else if (sentido[1] == "1") txt_sentido = "ANTIHORARIO";
+    
+    cout << endl << "CARA 2: LA SUPERFICIE " << (binary_to_int(superficie[1]) + 1) << " GIRÓ " << binary_to_int(rotaciones[1]) << " VECES EN SENTIDO " << txt_sentido;
+    
+    //INDICACIONES DE CARA 5
     
     sentido[2] = indicaciones_cara5.substr(0, 1);
     rotaciones[2] = indicaciones_cara5.substr(1, 2);
+    rotaciones[2] = inversion_str(rotaciones[2]);
     superficie[2] = indicaciones_cara5.substr(3, 2);
+    superficie[2] = inversion_str(superficie[2]);
+    
+    if (sentido[2] == "0") txt_sentido = "HORARIO";
+    else if (sentido[2] == "1") txt_sentido = "ANTIHORARIO";
+    
+    cout << endl << "CARA 5: LA SUPERFICIE " << (binary_to_int(superficie[2]) + 1) << " GIRÓ " << binary_to_int(rotaciones[2]) << " VECES EN SENTIDO " << txt_sentido;
     
     //cout << endl << sentido_cara1 << endl << rotaciones_cara1 << endl << superficie_cara1;
     
@@ -330,19 +385,6 @@ void ciclos(int ciclo){
             
             break;
     }
-}
-
-//CONVIERTE UN BINARIO DE 2 BITS EN ENTERO
-int binary_to_int(string binary){
-    
-    //De la forma 00, 01, 10, 11, 0, 1, 2, 3
-    int decimal = 0;
-    
-    if (binary[0] == '1') decimal += 1;
-    if (binary[1] == '1') decimal += 2;
-    
-    return decimal;
-    
 }
 
 //REORDENA EL CUBO
@@ -598,6 +640,8 @@ int main() {
     //Convertir a binario
     string binary = hex_to_binary(parameter);
     
+    cout << endl << "Parámetro convertido a binario: " << binary;
+    
     //PRIMERA FUNCIÓN
     
     //Sacar las indicaciones
@@ -610,6 +654,8 @@ int main() {
     
     //Convierte el parámetro inicial en base al bit de segunda función
     binary = segunda_funcion(bit_2da_funcion, binary);
+    
+    cout << endl << endl << "Parámetro de segunda función: " << binary;
     
     //Sacar las nuevas indicaciones
     rotaciones_indicaciones(binary);
